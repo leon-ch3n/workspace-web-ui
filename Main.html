@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gmail - Power up your new device with Google Workspace tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #000;
+        color: #fff;
+        overflow-x: hidden;
+        max-width: 375px;
+        margin: 0 auto;
+    }
+
+    /* iPhone Status Bar */
+    .status-bar {
+        background-color: #000;
+        color: #fff;
+        padding: 8px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .status-left {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .status-right {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .signal-bars {
+        display: flex;
+        gap: 2px;
+    }
+
+    .bar {
+        width: 3px;
+        background-color: #fff;
+        border-radius: 1px;
+    }
+
+    .bar1 { height: 4px; }
+    .bar2 { height: 6px; }
+    .bar3 { height: 8px; opacity: 0.6; }
+    .bar4 { height: 10px; opacity: 0.3; }
+
+    .wifi-icon, .battery {
+        font-size: 18px;
+    }
+
+    .battery {
+        padding: 2px 4px;
+        border: 1px solid #fff;
+        border-radius: 3px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    /* Gmail Header */
+    .gmail-header {
+        background-color: #1f1f1f;
+        padding: 12px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #333;
+    }
+
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .back-arrow {
+        font-size: 24px;
+        color: #9aa0a6;
+    }
+
+    .header-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .header-title h1 {
+        font-size: 18px;
+        font-weight: 400;
+        color: #fff;
+    }
+
+    .inbox-label {
+        background-color: #333;
+        color: #9aa0a6;
+        font-size: 12px;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-weight: 400;
+    }
+
+    .header-actions {
+        display: flex;
+        gap: 20px;
+        color: #9aa0a6;
+        font-size: 20px;
+    }
+
+    /* Email Info Section */
+    .email-info {
+        background-color: #1f1f1f;
+        padding: 16px;
+        border-bottom: 1px solid #333;
+    }
+
+    .sender-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+
+    .sender-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .sender-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #4285f4, #34a853);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .sender-details h3 {
+        font-size: 16px;
+        font-weight: 400;
+        color: #fff;
+        margin-bottom: 2px;
+    }
+
+    .sender-email {
+        font-size: 14px;
+        color: #9aa0a6;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .sender-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        color: #9aa0a6;
+    }
+
+    .date {
+        font-size: 14px;
+    }
+
+    .unsubscribe {
+        color: #4285f4;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    .subject-preview {
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid #333;
+    }
+
+    .subject-line {
+        font-size: 16px;
+        font-weight: 500;
+        color: #fff;
+        margin-bottom: 4px;
+    }
+
+    .preview-text {
+        font-size: 14px;
+        color: #9aa0a6;
+    }
+
+    /* Email Content */
+    .email-content {
+        background-color: #000;
+        padding: 0;
+    }
+
+    /* Module Styling */
+    .module {
+        padding: 24px 20px;
+        border-bottom: 1px solid #1f1f1f;
+    }
+
+    .module:last-child {
+        border-bottom: none;
+    }
+
+    /* Module 1: Header */
+    .header-module {
+        text-align: center;
+        background: linear-gradient(135deg, #1a73e8 0%, #4285f4 50%, #34a853 100%);
+        color: white;
+    }
+
+    .header-image {
+        width: 100%;
+        height: 140px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 12px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        opacity: 0.8;
+    }
+
+    .main-headline {
+        font-size: 26px;
+        font-weight: 400;
+        line-height: 1.2;
+        margin-bottom: 12px;
+    }
+
+    .main-subhead {
+        font-size: 16px;
+        opacity: 0.9;
+        line-height: 1.4;
+    }
+
+    /* Module 2: App Bundle */
+    .app-bundle-module {
+        background-color: #0d1117;
+    }
+
+    .module-title {
+        font-size: 22px;
+        font-weight: 500;
+        color: #fff;
+        margin-bottom: 16px;
+    }
+
+    .module-copy {
+        font-size: 16px;
+        color: #9aa0a6;
+        line-height: 1.5;
+        margin-bottom: 24px;
+    }
+
+    .primary-cta {
+        background-color: #1a73e8;
+        color: white;
+        border: none;
+        padding: 16px 24px;
+        border-radius: 24px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom: 24px;
+        transition: background-color 0.2s;
+    }
+
+    .primary-cta:hover {
+        background-color: #1557b0;
+    }
+
+    .apps-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+
+    .app-item {
+        text-align: center;
+        padding: 12px 8px;
+        border-radius: 8px;
+        transition: background-color 0.2s;
+    }
+
+    .app-item:hover {
+        background-color: #161b22;
+    }
+
+    .app-icon {
+        width: 44px;
+        height: 44px;
+        margin: 0 auto 8px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: white;
+    }
+
+    .gmail-icon { background: linear-gradient(135deg, #d93025, #ea4335); }
+    .drive-icon { background: linear-gradient(135deg, #0f9d58, #34a853); }
+    .docs-icon { background: linear-gradient(135deg, #4285f4, #1a73e8); }
+    .sheets-icon { background: linear-gradient(135deg, #0f9d58, #4caf50); }
+    .calendar-icon { background: linear-gradient(135deg, #1976d2, #2196f3); }
+    .meet-icon { background: linear-gradient(135deg, #00acc1, #00bcd4); }
+    .chat-icon { background: linear-gradient(135deg, #00c853, #4caf50); }
+    .gemini-icon { background: linear-gradient(135deg, #9c27b0, #e91e63); }
+
+    .app-label {
+        font-size: 12px;
+        color: #9aa0a6;
+        font-weight: 400;
+    }
+
+    .install-btn {
+        background: none;
+        border: 1px solid #333;
+        color: #4285f4;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 10px;
+        cursor: pointer;
+        margin-top: 4px;
+    }
+
+    /* Module 3: Feature Highlights */
+    .features-module {
+        background-color: #0a0a0a;
+    }
+
+    .feature-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .feature-card {
+        background-color: #1f1f1f;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .feature-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        flex-shrink: 0;
+    }
+
+    .gemini-feature { background: linear-gradient(135deg, #9c27b0, #e91e63); }
+    .drive-feature { background: linear-gradient(135deg, #0f9d58, #34a853); }
+    .meet-feature { background: linear-gradient(135deg, #00acc1, #00bcd4); }
+
+    .feature-content h4 {
+        font-size: 16px;
+        font-weight: 500;
+        color: #fff;
+        margin-bottom: 4px;
+    }
+
+    .feature-content p {
+        font-size: 14px;
+        color: #9aa0a6;
+        line-height: 1.4;
+    }
+
+    /* Module 4: Setup Checklist */
+    .checklist-module {
+        background-color: #0d1117;
+    }
+
+    .checklist {
+        list-style: none;
+    }
+
+    .checklist-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid #1f1f1f;
+    }
+
+    .checklist-item:last-child {
+        border-bottom: none;
+    }
+
+    .checklist-icon {
+        width: 24px;
+        height: 24px;
+        background-color: #34a853;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+
+    .checklist-text {
+        font-size: 15px;
+        color: #fff;
+    }
+
+    /* Module 5: Personal Use Branch */
+    .personal-branch-module {
+        background-color: #161b22;
+        border: 1px solid #333;
+        border-radius: 12px;
+        margin: 0 20px;
+    }
+
+    .secondary-cta {
+        background: none;
+        border: 2px solid #4285f4;
+        color: #4285f4;
+        padding: 14px 24px;
+        border-radius: 24px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        width: 100%;
+        transition: all 0.2s;
+    }
+
+    .secondary-cta:hover {
+        background-color: #4285f4;
+        color: white;
+    }
+
+    /* Footer */
+    .email-footer {
+        background-color: #1f1f1f;
+        padding: 24px 20px;
+        font-size: 12px;
+        color: #9aa0a6;
+        line-height: 1.4;
+    }
+
+    .footer-links {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 16px;
+    }
+
+    .footer-links a {
+        color: #4285f4;
+        text-decoration: none;
+    }
+
+    /* Action Bar */
+    .action-bar {
+        background-color: #1f1f1f;
+        padding: 16px;
+        display: flex;
+        justify-content: space-around;
+        border-top: 1px solid #333;
+    }
+
+    .action-btn {
+        background: none;
+        border: 1px solid #333;
+        color: #9aa0a6;
+        padding: 12px 24px;
+        border-radius: 20px;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .action-btn:hover {
+        background-color: #333;
+    }
+
+    /* Home Indicator */
+    .home-indicator {
+        height: 4px;
+        width: 134px;
+        background-color: #fff;
+        border-radius: 2px;
+        margin: 8px auto;
+    }
+
+    /* Demo Controls */
+    .demo-controls {
+        position: fixed;
+        top: 60px;
+        right: 10px;
+        background: rgba(0,0,0,0.9);
+        border: 1px solid #333;
+        padding: 8px;
+        border-radius: 6px;
+        font-size: 10px;
+        z-index: 1000;
+        color: #9aa0a6;
+    }
+
+    .demo-controls label {
+        display: block;
+        margin-bottom: 4px;
+        font-weight: 400;
+    }
+
+    .demo-controls input {
+        margin-right: 4px;
+    }
+
+    /* Accordion functionality */
+    .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .accordion-content.expanded {
+        max-height: 500px;
+    }
+
+    .accordion-toggle {
+        background: none;
+        border: none;
+        color: #4285f4;
+        cursor: pointer;
+        font-size: 14px;
+        padding: 8px 0;
+    }
+  </style>
+</head>
+<body>
+<!-- Demo Controls -->
+<div class="demo-controls">
+  <label><input type="checkbox" id="personalToggle" checked> Personal Branch</label>
+  <label><input type="checkbox" id="checklistToggle" checked> Show Checklist</label>
+</div>
+
+<!-- iPhone Status Bar -->
+<div class="status-bar">
+  <div class="status-left">
+    <span>2:29</span>
+    <span>🔇</span>
+  </div>
+  <div class="status-right">
+    <div class="signal-bars">
+      <div class="bar bar1"></div>
+      <div class="bar bar2"></div>
+      <div class="bar bar3"></div>
+      <div class="bar bar4"></div>
+    </div>
+    <span class="wifi-icon">📶</span>
+    <span class="battery">74</span>
+  </div>
+</div>
+
+<!-- Gmail Header -->
+<div class="gmail-header">
+  <div class="header-left">
+    <span class="back-arrow">‹</span>
+    <div class="header-title">
+      <h1>Google</h1>
+      <span class="inbox-label">Inbox</span>
+    </div>
+  </div>
+  <div class="header-actions">
+    <span>⬇</span>
+    <span>🗑</span>
+    <span>✉</span>
+    <span>⋯</span>
+  </div>
+</div>
+
+<!-- Email Info Section -->
+<div class="email-info">
+  <div class="sender-info">
+    <div class="sender-left">
+      <div class="sender-avatar">G</div>
+      <div class="sender-details">
+        <h3>Google Workspace</h3>
+        <div class="sender-email">
+          to me <span>⌄</span>
+        </div>
+      </div>
+    </div>
+    <div class="sender-right">
+      <span class="date">Jun 23</span>
+      <a href="#" class="unsubscribe">Unsubscribe</a>
+      <span>⋯</span>
+    </div>
+  </div>
+
+  <div class="subject-preview">
+    <div class="subject-line">Power up your new device with Google Workspace tools</div>
+    <div class="preview-text">Set up Gmail, Meet, Docs and more to get your business running — fast.</div>
+  </div>
+</div>
+
+<!-- Email Content -->
+<div class="email-content">
+
+  <!-- Module 1: Header -->
+  <div class="module header-module">
+    <div class="header-image">
+      📱 [Person working on mobile with floating Gmail, Drive, Docs, Chat, Meet icons]
+    </div>
+    <h1 class="main-headline">Welcome to Google Workspace on your new device</h1>
+    <h2 class="main-subhead">Let's get you set up with the apps built to help you run your business anywhere.</h2>
+  </div>
+
+  <!-- Module 2: App Bundle CTA -->
+  <div class="module app-bundle-module">
+    <h2 class="module-title">Download the Workspace Mobile App Suite</h2>
+    <p class="module-copy">Work faster, collaborate easier, and access your business files on the go. This curated bundle brings together the essential tools: Gmail, Calendar, Drive, Docs, Sheets, Meet, and Chat — optimized for mobile productivity.</p>
+
+    <button class="primary-cta" onclick="trackClick('install-all-apps')">
+      Install All Apps in One Tap
+    </button>
+
+    <div class="apps-grid">
+      <div class="app-item">
+        <div class="app-icon gmail-icon">✉️</div>
+        <div class="app-label">Gmail</div>
+        <button class="install-btn" onclick="trackClick('install-gmail')">Install</button>
+      </div>
+      <div class="app-item">
+        <div class="app-icon drive-icon">💾</div>
+        <div class="app-label">Drive</div>
+        <button class="install-btn" onclick="trackClick('install-drive')">Install</button>
+      </div>
+      <div class="app-item">
+        <div class="app-icon docs-icon">📝</div>
+        <div class="app-label">Docs</div>
+        <button class="install-btn" onclick="trackClick('install-docs')">Install</button>
+      </div>
+      <div class="app-item">
+        <div class="app-icon sheets-icon">📊</div>
+        <div class="app-label">Sheets</div>
+        <button class="install-btn" onclick="trackClick('install-sheets')">Install</button>
+      </div>
+      <div class="app-item">
+        <div class="app-icon calendar-icon">📅</div>
+        <div class="app-label">Calendar</div>
+        <button class="install-btn" onclick="trackClick('install-calendar')">Install</button>
+      </div>
+      <div class="app-item">
+        <div class="app-icon meet-icon">📹</div>
+        <div class="app-label">Meet</div>
+        <button class="install-btn" onclick="trackClick('install-meet')">Install</button>
+      </div>
+      <div class="app-item">
+        <div class="app-icon chat-icon">💬</div>
+        <div class="app-label">Chat</div>
+        <button class="install-btn" onclick="trackClick('install-chat')">Install</button>
+      </div>
+      <div class="app-item">
+        <div class="app-icon gemini-icon">🤖</div>
+        <div class="app-label">Gemini</div>
+        <button class="install-btn" onclick="trackClick('install-gemini')">Install</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Module 3: Feature Highlights -->
+  <div class="module features-module">
+    <h2 class="module-title">Work smarter with Gemini-powered tools</h2>
+
+    <div class="feature-cards">
+      <div class="feature-card">
+        <div class="feature-icon gemini-feature">🤖</div>
+        <div class="feature-content">
+          <h4>Gemini in Docs</h4>
+          <p>Summarize docs, generate proposals, and ideate — all on mobile.</p>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon drive-feature">☁️</div>
+        <div class="feature-content">
+          <h4>Drive Access</h4>
+          <p>Secure cloud storage that syncs across devices instantly.</p>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon meet-feature">📹</div>
+        <div class="feature-content">
+          <h4>Seamless Meet Integration</h4>
+          <p>Schedule and run video meetings on the go.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Module 4: Account Checklist -->
+  <div class="module checklist-module" id="checklistSection">
+    <h2 class="module-title">Set up for business success</h2>
+
+    <ul class="checklist">
+      <li class="checklist-item">
+        <div class="checklist-icon">✓</div>
+        <div class="checklist-text">Add your recovery email and phone</div>
+      </li>
+      <li class="checklist-item">
+        <div class="checklist-icon">✓</div>
+        <div class="checklist-text">Sync calendar & meeting preferences</div>
+      </li>
+      <li class="checklist-item">
+        <div class="checklist-icon">✓</div>
+        <div class="checklist-text">Enable mobile notifications for business apps</div>
+      </li>
+      <li class="checklist-item">
+        <div class="checklist-icon">✓</div>
+        <div class="checklist-text">Turn on app suggestions for smart workflows</div>
+      </li>
+      <li class="checklist-item">
+        <div class="checklist-icon">✓</div>
+        <div class="checklist-text">Set up 2-step verification for better security</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Module 5: Personal Use Branch -->
+  <div class="module personal-branch-module" id="personalSection">
+    <h2 class="module-title">Also planning to use this Google Account for personal use?</h2>
+    <p class="module-copy">No problem — we'll guide you through the standard setup to personalize your account for photos, maps, and everyday use.</p>
+
+    <button class="secondary-cta" onclick="trackClick('personal-setup')">
+      Set Up This Account for Personal Use
+    </button>
+  </div>
+
+  <!-- Footer -->
+  <div class="email-footer">
+    <div class="footer-links">
+      <a href="#" onclick="trackClick('help-center')">Help Center</a>
+      <a href="#" onclick="trackClick('workspace-support')">Workspace Support</a>
+      <a href="#" onclick="trackClick('admin-console')">Admin Console</a>
+    </div>
+
+    <p>This email was sent to help you set up Google Workspace on your new device. You can manage your email preferences or unsubscribe at any time.</p>
+
+    <p style="margin-top: 12px; font-size: 11px;">
+      Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA
+    </p>
+  </div>
+</div>
+
+<!-- Action Bar -->
+<div class="action-bar">
+  <button class="action-btn">
+    <span>↶</span> Reply
+  </button>
+  <button class="action-btn">
+    <span>→</span> Forward
+  </button>
+  <button class="action-btn">😊</button>
+</div>
+
+<!-- Home Indicator -->
+<div class="home-indicator"></div>
+
+<script>
+  // UTM Tracking simulation
+  function trackClick(action) {
+      console.log(`UTM Tracking: ${action}`);
+      alert(`🎯 Tracking: ${action}\n\nUTM Parameters:\n• utm_source=email\n• utm_medium=workspace_ndn\n• utm_campaign=mobile_setup\n• utm_content=${action}`);
+  }
+
+  // Demo controls
+  document.getElementById('personalToggle').addEventListener('change', function() {
+      const section = document.getElementById('personalSection');
+      section.style.display = this.checked ? 'block' : 'none';
+  });
+
+  document.getElementById('checklistToggle').addEventListener('change', function() {
+      const section = document.getElementById('checklistSection');
+      section.style.display = this.checked ? 'block' : 'none';
+  });
+
+  // Accordion functionality for future use
+  function toggleAccordion(element) {
+      const content = element.nextElementSibling;
+      content.classList.toggle('expanded');
+  }
+
+  // Simulate app installations
+  document.addEventListener('DOMContentLoaded', function() {
+      const installButtons = document.querySelectorAll('.install-btn');
+      installButtons.forEach(btn => {
+          btn.addEventListener('click', function() {
+              this.textContent = 'Installed';
+              this.style.background = '#34a853';
+              this.style.color = 'white';
+              this.style.border = '1px solid #34a853';
+          });
+      });
+  });
+</script>
+</body>
+</html>
